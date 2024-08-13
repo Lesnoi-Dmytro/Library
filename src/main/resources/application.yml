@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: library
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  liquibase:
+    change-log: classpath:db/changelog/changelog-root.xml
+
+server:
+  servlet:
+    context-path: /api
+
+borrow:
+  limit: ${BORROW_LIMIT}

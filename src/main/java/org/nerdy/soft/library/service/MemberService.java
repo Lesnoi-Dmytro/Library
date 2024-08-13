@@ -1,0 +1,48 @@
+package org.nerdy.soft.library.service;
+
+import lombok.RequiredArgsConstructor;
+import org.nerdy.soft.library.data.Member;
+import org.nerdy.soft.library.repositiry.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+
+@Service
+@RequiredArgsConstructor
+public class MemberService {
+	private final MemberRepository memberRepository;
+
+	public Page<Member> getMembers(int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+
+		return memberRepository.findAll(pageRequest);
+	}
+
+	public Member getMemberById(long id) {
+		return memberRepository.findById(id).orElseThrow(
+				() -> new IllegalArgumentException("Member with id " + id + " not found"));
+	}
+
+	public Member createMember(Member member) {
+		member.setId(0);
+		member.setMembershipDate(LocalDate.now());
+
+		return memberRepository.save(member);
+	}
+
+	public Member updateMember(Member member) {
+		getMemberById(member.getId());
+		return memberRepository.save(member);
+	}
+
+	public void deleteMember(long id) {
+		Member member = getMemberById(id);
+		if (member.getBorrowed().isEmpty()) {
+			memberRepository.delete(member);
+		} else {
+			throw new IllegalStateException("Member with id " + id + " borrowed a book");
+		}
+	}
+}

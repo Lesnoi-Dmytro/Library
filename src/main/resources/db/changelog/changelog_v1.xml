@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0" author="lesnoi dmytro">
+        <createTable tableName="book">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="title" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="book"
+                             columnNames="title, author"/>
+
+        <createTable tableName="member">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="member_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="membership_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="borrowed">
+            <column name="book_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="member_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="borrow_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="borrowed"
+                       columnNames="book_id, member_id"/>
+        <addForeignKeyConstraint baseTableName="borrowed"
+                                 baseColumnNames="book_id"
+                                 constraintName="FK_book_id"
+                                 referencedTableName="book"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="borrowed"
+                                 baseColumnNames="member_id"
+                                 constraintName="FK_member_id"
+                                 referencedTableName="member"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1" author="lesnoi dmytro">
+        <createTable tableName="history">
+            <column name="book_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="member_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="borrow_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="return_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="history"
+                       columnNames="book_id, member_id"/>
+        <addForeignKeyConstraint baseTableName="history"
+                                 baseColumnNames="book_id"
+                                 constraintName="FK_book_id"
+                                 referencedTableName="book"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="history"
+                                 baseColumnNames="member_id"
+                                 constraintName="FK_member_id"
+                                 referencedTableName="member"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
