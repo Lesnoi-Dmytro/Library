@@ -7,6 +7,8 @@ spring:
     password: ${DB_PASS}
   liquibase:
     change-log: classpath:db/changelog/changelog-root.xml
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   servlet:

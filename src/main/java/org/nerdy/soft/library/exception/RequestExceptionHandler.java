@@ -7,9 +7,11 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @ControllerAdvice
 public class RequestExceptionHandler {
-	@ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class, ConstraintViolationException.class})
+	@ExceptionHandler({NoSuchElementException.class, IllegalStateException.class, ConstraintViolationException.class})
 	public ResponseEntity<ErrorResponse> handleException(final Exception ex) {
 		HttpStatusCode code = HttpStatusCode.valueOf(400);
 		ErrorResponse response = ErrorResponse.create(

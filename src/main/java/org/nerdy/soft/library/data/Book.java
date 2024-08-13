@@ -37,6 +37,8 @@ public class Book {
 	@Size(min = 1, max = 50)
 	private String author;
 
+	private int amount;
+
 	@OneToMany(mappedBy = "id.book")
 	@JsonIgnore
 	private List<Borrowed> borrowed;
@@ -44,8 +46,6 @@ public class Book {
 	@OneToMany(mappedBy = "id.book")
 	@JsonIgnore
 	private List<History> history;
-
-	private int amount;
 
 	public void addAmount(int amount) {
 		this.amount += amount;

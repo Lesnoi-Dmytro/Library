@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class MemberService {
 
 	public Member getMemberById(long id) {
 		return memberRepository.findById(id).orElseThrow(
-				() -> new IllegalArgumentException("Member with id " + id + " not found"));
+				() -> new NoSuchElementException("Member with id " + id + " not found"));
 	}
 
 	public Member createMember(Member member) {
@@ -50,7 +51,7 @@ public class MemberService {
 
 	public Member getMemberByName(String name) {
 		return memberRepository.findByName(name).orElseThrow(
-				() -> new IllegalArgumentException("Member with name '" + name + "' not found"));
+				() -> new NoSuchElementException("Member with name '" + name + "' not found"));
 	}
 
 	public List<Book> findBorrowedByName(String name) {

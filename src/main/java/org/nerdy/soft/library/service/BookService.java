@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.nerdy.soft.library.data.Book;
 import org.nerdy.soft.library.repositiry.BookRepository;
 import org.nerdy.soft.library.repositiry.borrow.BorrowedRepository;
-import org.nerdy.soft.library.response.BorrowedBooksResponse;
+import org.nerdy.soft.library.response.BorrowedBooksInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,7 +28,7 @@ public class BookService {
 
 	public Book getBookById(long id) {
 		return bookRepository.findById(id).orElseThrow(
-				() -> new IllegalArgumentException("Book with id " + id + " not found"));
+				() -> new NoSuchElementException("Book with id " + id + " not found"));
 	}
 
 	@Transactional
@@ -80,10 +81,10 @@ public class BookService {
 				.toList();
 	}
 
-	public List<BorrowedBooksResponse> getBorrowedBooksInfo() {
+	public List<BorrowedBooksInfo> getBorrowedBooksInfo() {
 		return getDistinctBorrowedBooks()
 				.stream()
-				.map(BorrowedBooksResponse::new)
+				.map(BorrowedBooksInfo::new)
 				.toList();
 	}
 }

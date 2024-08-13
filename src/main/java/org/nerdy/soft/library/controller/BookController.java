@@ -2,7 +2,7 @@ package org.nerdy.soft.library.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.nerdy.soft.library.data.Book;
-import org.nerdy.soft.library.response.BorrowedBooksResponse;
+import org.nerdy.soft.library.response.BorrowedBooksInfo;
 import org.nerdy.soft.library.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +47,7 @@ public class BookController {
 	}
 
 	@GetMapping("/borrowed")
-	public List<BorrowedBooksResponse> borrowedBooks() {
+	public List<BorrowedBooksInfo> borrowedBooks() {
 		return bookService.getBorrowedBooksInfo();
 	}
 }
