@@ -1,6 +1,7 @@
 package org.nerdy.soft.library.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,13 +23,16 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
+	@Schema(example = "1")
 	private long id;
 
 	@NotBlank
 	@Column(name = "member_name")
+	@Schema(example = "John Doe")
 	private String name;
 
 	@Column(name = "membership_date")
+	@Schema(example = "2024-08-13")
 	private LocalDate membershipDate;
 
 

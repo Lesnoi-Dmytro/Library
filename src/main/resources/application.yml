@@ -8,11 +8,15 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelog-root.xml
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: true
 
 server:
   servlet:
     context-path: /api
+
+springdoc:
+  swagger-ui:
+    path: /api-docs
 
 borrow:
   limit: ${BORROW_LIMIT}

@@ -9,6 +9,7 @@ import org.nerdy.soft.library.data.borrow.BorrowId;
 import org.nerdy.soft.library.data.borrow.Borrowed;
 import org.nerdy.soft.library.repositiry.BookRepository;
 import org.nerdy.soft.library.repositiry.borrow.BorrowedRepository;
+import org.nerdy.soft.library.request.AddBookRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -92,51 +93,56 @@ class BookServiceTest {
 
 	@Nested
 	public class AddBookTest {
-		Book book;
+		AddBookRequest addRequest;
 		Book sameBook;
 
 		@BeforeEach
 		public void setupBook() {
-			book = mock(Book.class);
+			addRequest = mock(AddBookRequest.class);
+			when(addRequest.getTitle()).thenReturn(BOOK_TITLE1);
+			when(addRequest.getAuthor()).thenReturn(BOOK_AUTHOR1);
+
 			sameBook = mock(Book.class);
-			when(book.getTitle()).thenReturn(BOOK_TITLE1);
-			when(book.getAuthor()).thenReturn(BOOK_AUTHOR1);
+			when(addRequest.getTitle()).thenReturn(BOOK_TITLE1);
+			when(addRequest.getAuthor()).thenReturn(BOOK_AUTHOR1);
 		}
 
 		@Test
 		public void addNonExistingBookWithAmount() {
-			when(book.getAmount()).thenReturn(BOOK_AMOUNT);
-			when(bookRepository.findByTitleAndAuthor(book.getTitle(), book.getAuthor()))
+			when(addRequest.getAmount()).thenReturn(BOOK_AMOUNT);
+			when(bookRepository.findByTitleAndAuthor(addRequest.getTitle(), addRequest.getAuthor()))
 					.thenReturn(Optional.empty());
+			Book book = new Book(0, addRequest.getTitle(), addRequest.getAuthor(),
+					addRequest.getAmount(), null, null);
 			when(bookRepository.save(book)).thenReturn(book);
 
-			assertEquals(book, bookService.addBook(book));
-			verify(book).setId(0);
-			verify(book, never()).setAmount(1);
+			assertEquals(book, bookService.addBook(addRequest));
+			verify(addRequest, never()).setAmount(1);
 		}
 
 		@Test
 		public void addNonExistingBookWithoutAmount() {
-			when(book.getAmount()).thenReturn(0);
-			when(bookRepository.findByTitleAndAuthor(book.getTitle(), book.getAuthor()))
+			when(addRequest.getAmount()).thenReturn(0);
+			when(bookRepository.findByTitleAndAuthor(addRequest.getTitle(), addRequest.getAuthor()))
 					.thenReturn(Optional.empty());
+			Book book = new Book(0, addRequest.getTitle(), addRequest.getAuthor(),
+					addRequest.getAmount(), null, null);
 			when(bookRepository.save(book)).thenReturn(book);
 
-			assertEquals(book, bookService.addBook(book));
-			verify(book).setId(0);
-			verify(book).setAmount(1);
+			assertEquals(book, bookService.addBook(addRequest));
+			verify(addRequest).setAmount(1);
 		}
 
 		@Test
 		public void addExistingBook() {
-			when(book.getAmount()).thenReturn(BOOK_AMOUNT);
-			when(bookRepository.findByTitleAndAuthor(book.getTitle(), book.getAuthor()))
+			when(addRequest.getAmount()).thenReturn(BOOK_AMOUNT);
+			when(bookRepository.findByTitleAndAuthor(addRequest.getTitle(), addRequest.getAuthor()))
 					.thenReturn(Optional.of(sameBook));
 			when(bookRepository.save(sameBook)).thenReturn(sameBook);
 
-			assertEquals(sameBook, bookService.addBook(book));
+			assertEquals(sameBook, bookService.addBook(addRequest));
 			verify(sameBook, times(1))
-					.addAmount(book.getAmount());
+					.addAmount(addRequest.getAmount());
 		}
 	}
 

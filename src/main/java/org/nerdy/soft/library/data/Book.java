@@ -1,6 +1,7 @@
 package org.nerdy.soft.library.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,20 +24,24 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
+	@Schema(example = "1")
 	private long id;
 
 	@Column(name = "title")
 	@NotBlank
 	@Pattern(regexp = "^[A-Z].*")
 	@Size(min = 3, max = 50)
+	@Schema(example = "A Tale of Two Cities")
 	private String title;
 
 	@Column(name = "author")
 	@NotBlank
 	@Pattern(regexp = "^[A-Z].* [A-Z].*")
 	@Size(min = 1, max = 50)
+	@Schema(example = "Charles Dickens")
 	private String author;
 
+	@Schema(example = "10")
 	private int amount;
 
 	@OneToMany(mappedBy = "id.book")

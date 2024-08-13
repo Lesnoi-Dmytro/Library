@@ -1,5 +1,6 @@
 package org.nerdy.soft.library.data.borrow;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -23,5 +24,6 @@ public class History extends BorrowInfo {
 	}
 
 	@Column(name = "return_date")
+	@Schema(example = "2024-08-13")
 	private LocalDate returnDate;
 }

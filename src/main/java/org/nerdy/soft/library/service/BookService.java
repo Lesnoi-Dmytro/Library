@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.nerdy.soft.library.data.Book;
 import org.nerdy.soft.library.repositiry.BookRepository;
 import org.nerdy.soft.library.repositiry.borrow.BorrowedRepository;
+import org.nerdy.soft.library.request.AddBookRequest;
 import org.nerdy.soft.library.response.BorrowedBooksInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,18 +33,19 @@ public class BookService {
 	}
 
 	@Transactional
-	public Book addBook(Book book) {
-		book.setId(0);
-		if (book.getAmount() == 0) {
-			book.setAmount(1);
+	public Book addBook(AddBookRequest addRequest) {
+		if (addRequest.getAmount() == 0) {
+			addRequest.setAmount(1);
 		}
+		Book book = new Book(0, addRequest.getTitle(), addRequest.getAuthor(),
+				addRequest.getAmount(), null, null);
 
 		Optional<Book> sameBookOpt = bookRepository
-				.findByTitleAndAuthor(book.getTitle(), book.getAuthor());
+				.findByTitleAndAuthor(addRequest.getTitle(), addRequest.getAuthor());
 
 		if (sameBookOpt.isPresent()) {
 			Book sameBook = sameBookOpt.get();
-			sameBook.addAmount(book.getAmount());
+			sameBook.addAmount(addRequest.getAmount());
 			book = sameBook;
 		}
 
