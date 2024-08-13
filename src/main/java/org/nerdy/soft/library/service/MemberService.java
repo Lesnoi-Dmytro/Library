@@ -1,6 +1,7 @@
 package org.nerdy.soft.library.service;
 
 import lombok.RequiredArgsConstructor;
+import org.nerdy.soft.library.data.Book;
 import org.nerdy.soft.library.data.Member;
 import org.nerdy.soft.library.repositiry.MemberRepository;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +46,19 @@ public class MemberService {
 		} else {
 			throw new IllegalStateException("Member with id " + id + " borrowed a book");
 		}
+	}
+
+	public Member getMemberByName(String name) {
+		return memberRepository.findByName(name).orElseThrow(
+				() -> new IllegalArgumentException("Member with name '" + name + "' not found"));
+	}
+
+	public List<Book> findBorrowedByName(String name) {
+		Member member = getMemberByName(name);
+
+		return member.getBorrowed()
+				.stream()
+				.map(b -> b.getId().getBook())
+				.toList();
 	}
 }

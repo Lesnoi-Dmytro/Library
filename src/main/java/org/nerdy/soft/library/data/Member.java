@@ -6,10 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.nerdy.soft.library.data.borrow.Borrow;
+import org.nerdy.soft.library.data.borrow.Borrowed;
 import org.nerdy.soft.library.data.borrow.History;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -33,9 +34,44 @@ public class Member {
 
 	@OneToMany(mappedBy = "id.member")
 	@JsonIgnore
-	private List<Borrow> borrowed;
+	private List<Borrowed> borrowed;
 
 	@OneToMany(mappedBy = "id.member")
 	@JsonIgnore
 	private List<History> history;
+
+	public void addBorrowed(Borrowed borrow) {
+		if (borrowed == null) {
+			borrowed = new ArrayList<>();
+		}
+		borrowed.add(borrow);
+	}
+
+	public void removeBorrowed(Borrowed borrow) {
+		if (borrowed != null) {
+			borrowed.remove(borrow);
+		}
+	}
+
+	public void addHistory(History history) {
+		if (this.history == null) {
+			this.history = new ArrayList<>();
+		}
+		this.history.add(history);
+	}
+
+	public void removeHistory(History history) {
+		if (history != null) {
+			this.history.remove(history);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+				"name='" + name + '\'' +
+				", id=" + id +
+				", membershipDate=" + membershipDate +
+				'}';
+	}
 }

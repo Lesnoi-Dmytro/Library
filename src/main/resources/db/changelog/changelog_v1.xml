@@ -87,4 +87,8 @@
                                  referencedTableName="member"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet id="3" author="lesnoi dmytro">
+        <addUniqueConstraint tableName="member" columnNames="member_name"/>
+    </changeSet>
 </databaseChangeLog>

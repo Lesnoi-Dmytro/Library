@@ -16,7 +16,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "history")
-public class History extends Borrow {
+public class History extends BorrowInfo {
+	public History(BorrowInfo borrow) {
+		super(borrow.getId(), borrow.getBorrowDate());
+		this.returnDate = LocalDate.now();
+	}
 
 	@Column(name = "return_date")
 	private LocalDate returnDate;

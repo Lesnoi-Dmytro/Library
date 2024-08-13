@@ -10,13 +10,16 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Entity
-@Table(name = "borrowed")
-public class Borrow {
+@MappedSuperclass
+public abstract class BorrowInfo {
 	@EmbeddedId
-	private BorrowId id;
+	protected BorrowId id;
 
 	@Column(name = "borrow_date")
-	private LocalDate borrowDate;
+	protected LocalDate borrowDate;
+
+	public BorrowInfo(BorrowId id) {
+		this.id = id;
+		this.borrowDate = LocalDate.now();
+	}
 }

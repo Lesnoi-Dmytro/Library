@@ -2,9 +2,12 @@ package org.nerdy.soft.library.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.nerdy.soft.library.data.Book;
+import org.nerdy.soft.library.response.BorrowedBooksResponse;
 import org.nerdy.soft.library.service.BookService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -36,5 +39,15 @@ public class BookController {
 	@DeleteMapping("/{id}")
 	public void deleteBook(@PathVariable long id) {
 		bookService.deleteBook(id);
+	}
+
+	@GetMapping("/borrowed/titles")
+	public List<String> borrowedBooksTitles() {
+		return bookService.getBorrowedBooksTitle();
+	}
+
+	@GetMapping("/borrowed")
+	public List<BorrowedBooksResponse> borrowedBooks() {
+		return bookService.getBorrowedBooksInfo();
 	}
 }

@@ -8,9 +8,10 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.nerdy.soft.library.data.borrow.Borrow;
+import org.nerdy.soft.library.data.borrow.Borrowed;
 import org.nerdy.soft.library.data.borrow.History;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -38,7 +39,7 @@ public class Book {
 
 	@OneToMany(mappedBy = "id.book")
 	@JsonIgnore
-	private List<Borrow> borrowed;
+	private List<Borrowed> borrowed;
 
 	@OneToMany(mappedBy = "id.book")
 	@JsonIgnore
@@ -52,5 +53,41 @@ public class Book {
 
 	public void subtractAmount(int amount) {
 		this.amount -= amount;
+	}
+
+	public void addBorrowed(Borrowed borrow) {
+		if (borrowed == null) {
+			borrowed = new ArrayList<>();
+		}
+		borrowed.add(borrow);
+	}
+
+	public void removeBorrowed(Borrowed borrow) {
+		if (borrowed != null) {
+			borrowed.remove(borrow);
+		}
+	}
+
+	public void addHistory(History history) {
+		if (this.history == null) {
+			this.history = new ArrayList<>();
+		}
+		this.history.add(history);
+	}
+
+	public void removeHistory(History history) {
+		if (this.history != null) {
+			this.history.remove(history);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Book{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", author='" + author + '\'' +
+				", amount=" + amount +
+				'}';
 	}
 }
