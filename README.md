@@ -4,6 +4,10 @@
 
 REST service for library management using Java Spring Boot, JPA, Spring Validator, H2/Postgres database, JUnit and Mockito.
 
+## Usage
+
+API origin is ``http://localhosh:8080``
+
 ## Build
 
 To build this project you need to execute following command:
@@ -39,3 +43,7 @@ To launch this application you need to execute the following command:
 ```
 java -jar target/library-*version*.jar
 ```
+
+## Documentation
+
+Documentation accessible through ``http://localhost:8080/api/api-docs``
